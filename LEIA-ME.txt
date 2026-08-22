@@ -1,0 +1,19 @@
+PACOTE FINAL — LARISSA NÓBREGA
+
+Este pacote não precisa instalar nem compilar nada.
+
+PASSO A PASSO PARA O GITHUB:
+1. Extraia o arquivo ZIP.
+2. Abra a pasta extraída.
+3. Envie o arquivo index.html para a raiz de um repositório novo.
+4. Confirme que index.html aparece na primeira tela do GitHub.
+
+PASSO A PASSO PARA A VERCEL:
+1. Importe esse repositório novo.
+2. Em Framework Preset, escolha Other.
+3. Deixe Build Command vazio.
+4. Deixe Output Directory vazio.
+5. Clique em Deploy.
+
+IMPORTANTE:
+Se a Vercel mostrar “Detected Next.js” ou executar “npm run build”, ela ainda está usando o repositório antigo. Este novo pacote não contém package.json, Next.js ou TypeScript.
