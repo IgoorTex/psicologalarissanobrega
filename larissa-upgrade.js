@@ -52,6 +52,52 @@
     prepareInteractiveGroup(".signal-grid");
     prepareInteractiveGroup(".approach-list");
     prepareInteractiveGroup(".process-steps");
+    prepareInstagramShowcase();
+  }
+
+  function prepareInstagramShowcase() {
+    const rail = document.querySelector(".instagram-rail");
+    if (!rail || rail.dataset.dragReady) return;
+    rail.dataset.dragReady = "true";
+    let dragging = false;
+    let moved = false;
+    let startX = 0;
+    let startScroll = 0;
+
+    rail.addEventListener("pointerdown", function (event) {
+      if (event.pointerType !== "mouse" || event.button !== 0) return;
+      dragging = true;
+      moved = false;
+      startX = event.clientX;
+      startScroll = rail.scrollLeft;
+      rail.classList.add("is-dragging");
+      rail.setPointerCapture(event.pointerId);
+    });
+
+    rail.addEventListener("pointermove", function (event) {
+      if (!dragging) return;
+      const distance = event.clientX - startX;
+      if (Math.abs(distance) > 5) moved = true;
+      rail.scrollLeft = startScroll - distance;
+      if (moved) event.preventDefault();
+    });
+
+    function stopDragging(event) {
+      if (!dragging) return;
+      dragging = false;
+      rail.classList.remove("is-dragging");
+      if (rail.hasPointerCapture(event.pointerId)) rail.releasePointerCapture(event.pointerId);
+    }
+
+    rail.addEventListener("pointerup", stopDragging);
+    rail.addEventListener("pointercancel", stopDragging);
+    rail.addEventListener("dragstart", function (event) { event.preventDefault(); });
+    rail.addEventListener("click", function (event) {
+      if (!moved) return;
+      event.preventDefault();
+      event.stopPropagation();
+      moved = false;
+    }, true);
   }
 
   function loadMotionScript(id, source) {
@@ -146,7 +192,7 @@
         duration: .78,
         stagger: .07,
         ease: "power4.out",
-        clearProps: "willChange",
+        clearProps: "transform,opacity,visibility,willChange",
         scrollTrigger: {
           trigger: trigger,
           start: "top 84%",
@@ -227,12 +273,50 @@
   function finishIntro() {
     if (introFinished) return;
     introFinished = true;
-    intro.classList.add("is-leaving");
-    body.classList.remove("larissa-intro-open");
-    startPremiumMotion();
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) {
+      intro.classList.add("is-leaving");
+      body.classList.remove("larissa-intro-open");
+      startPremiumMotion();
+      window.setTimeout(function () { intro.remove(); }, 850);
+      return;
+    }
+
+    const columns = window.innerWidth <= 680 ? 6 : 12;
+    const rows = window.innerWidth <= 680 ? 10 : 7;
+    const grid = document.createElement("div");
+    const fragment = document.createDocumentFragment();
+    grid.className = "larissa-grid-transition";
+    grid.style.setProperty("--grid-columns", columns);
+    grid.style.setProperty("--grid-rows", rows);
+
+    for (let row = 0; row < rows; row += 1) {
+      for (let column = 0; column < columns; column += 1) {
+        const tile = document.createElement("span");
+        const entryWave = row + column;
+        const exitWave = (rows - 1 - row) + (columns - 1 - column);
+        tile.style.setProperty("--tile-in-delay", entryWave * 16 + "ms");
+        tile.style.setProperty("--tile-out-delay", exitWave * 16 + "ms");
+        fragment.appendChild(tile);
+      }
+    }
+
+    grid.appendChild(fragment);
+    intro.appendChild(grid);
+    intro.classList.add("is-grid-transitioning");
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () { grid.classList.add("is-covering"); });
+    });
+
     window.setTimeout(function () {
-      intro.remove();
-    }, 850);
+      intro.classList.add("is-site-reveal");
+      grid.classList.add("is-revealing");
+      body.classList.remove("larissa-intro-open");
+      startPremiumMotion();
+    }, 620);
+
+    window.setTimeout(function () { intro.remove(); }, 1420);
   }
 
   function updateIntroVideoMode() {
