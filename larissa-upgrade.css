@@ -17,6 +17,11 @@ body.lead-form-open {
   display: none !important;
 }
 
+/* O antigo brilho seguia o mouse atualizando o layout a cada movimento. */
+.ambient-pointer {
+  display: none !important;
+}
+
 .larissa-video-intro {
   position: fixed;
   z-index: 9999;
@@ -52,7 +57,7 @@ body.lead-form-open {
 }
 
 .larissa-intro-video-wrap {
-  width: min(760px, 74vw);
+  width: min(650px, 66vw);
   line-height: 0;
   opacity: 0;
   transform: translateY(10px) scale(.985);
@@ -64,7 +69,11 @@ body.lead-form-open {
   height: auto;
   display: block;
   mix-blend-mode: screen;
-  filter: brightness(1.12) contrast(1.08) saturate(.84);
+  filter: brightness(1.04) contrast(1.04) saturate(.88);
+}
+
+.larissa-video-intro.has-alpha-video .larissa-intro-video-wrap video {
+  mix-blend-mode: normal;
 }
 
 .larissa-intro-name {
@@ -76,11 +85,11 @@ body.lead-form-open {
 
 .larissa-intro-name h1 {
   margin: 0;
-  letter-spacing: -.055em;
+  letter-spacing: -.035em;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(46px, 6.2vw, 88px);
+  font-size: clamp(32px, 4.3vw, 58px);
   font-weight: 400;
-  line-height: .92;
+  line-height: 1;
 }
 
 .larissa-intro-name h1 em {
@@ -89,12 +98,12 @@ body.lead-form-open {
 }
 
 .larissa-intro-name p {
-  margin: 17px 0 0;
+  margin: 13px 0 0;
   color: rgba(255, 253, 248, .72);
-  letter-spacing: .19em;
+  letter-spacing: .17em;
   text-transform: uppercase;
   font-family: Arial, sans-serif;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
 }
 
@@ -424,11 +433,11 @@ body.lead-form-open {
 
 @media (max-width: 740px) {
   .larissa-intro-video-wrap {
-    width: min(94vw, 650px);
+    width: min(96vw, 590px);
   }
 
   .larissa-intro-name h1 {
-    font-size: clamp(44px, 13vw, 67px);
+    font-size: clamp(33px, 10vw, 48px);
   }
 
   .lead-form-modal {

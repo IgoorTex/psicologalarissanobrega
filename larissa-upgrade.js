@@ -13,6 +13,17 @@
   let currentStep = 0;
   let introFinished = false;
 
+  function stopLegacyPointerEffect(event) {
+    event.stopPropagation();
+  }
+
+  function optimizePointerMovement() {
+    const main = document.getElementById("inicio");
+    if (!main || main.dataset.pointerOptimized) return;
+    main.dataset.pointerOptimized = "true";
+    main.addEventListener("pointermove", stopLegacyPointerEffect);
+  }
+
   function finishIntro() {
     if (introFinished) return;
     introFinished = true;
@@ -23,7 +34,14 @@
     }, 850);
   }
 
+  function updateIntroVideoMode() {
+    const source = introVideo.currentSrc || "";
+    intro.classList.toggle("has-alpha-video", source.toLowerCase().includes(".webm"));
+  }
+
   body.classList.add("larissa-intro-open");
+  introVideo.addEventListener("loadedmetadata", updateIntroVideoMode);
+  introVideo.addEventListener("canplay", updateIntroVideoMode);
   introVideo.addEventListener("ended", finishIntro, { once: true });
   introVideo.addEventListener("error", finishIntro, { once: true });
   const playback = introVideo.play();
@@ -163,12 +181,14 @@
   });
 
   prepareContactLinks(document);
+  optimizePointerMovement();
   new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
         if (node.nodeType === 1) prepareContactLinks(node);
       });
     });
+    optimizePointerMovement();
   }).observe(document.getElementById("root"), { childList: true, subtree: true });
 
   if (window.location.hash === "#lead-form") openForm();
