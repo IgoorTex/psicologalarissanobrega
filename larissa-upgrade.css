@@ -1,0 +1,489 @@
+:root {
+  --larissa-brown: #b8684c;
+  --larissa-brown-deep: #8b4938;
+  --larissa-paper: #f4efe7;
+  --larissa-ink: #272a25;
+  --larissa-forest: #343a32;
+}
+
+body.larissa-intro-open,
+body.lead-form-open {
+  overflow: hidden !important;
+}
+
+/* A abertura original fica substituída pelo vídeo fornecido. */
+.site-intro,
+.preconversation {
+  display: none !important;
+}
+
+.larissa-video-intro {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: clamp(8px, 1.8vh, 20px);
+  min-height: 100dvh;
+  padding: clamp(22px, 4vw, 52px);
+  overflow: hidden;
+  color: var(--larissa-paper);
+  background:
+    radial-gradient(circle at 50% 36%, rgba(236, 177, 149, 0.22), transparent 31%),
+    radial-gradient(circle at 14% 90%, rgba(76, 34, 27, 0.18), transparent 34%),
+    linear-gradient(145deg, #a75c45 0%, var(--larissa-brown) 48%, var(--larissa-brown-deep) 100%);
+  transition: opacity 0.8s cubic-bezier(.22,.72,.22,1), visibility 0.8s;
+}
+
+.larissa-video-intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 28%, rgba(255,255,255,.055) 49%, transparent 69%);
+  transform: translateX(-100%);
+  animation: larissaIntroLight 3s ease-in-out forwards;
+}
+
+.larissa-video-intro.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.larissa-intro-video-wrap {
+  width: min(760px, 74vw);
+  line-height: 0;
+  opacity: 0;
+  transform: translateY(10px) scale(.985);
+  animation: larissaIntroReveal .8s .08s cubic-bezier(.22,.72,.22,1) forwards;
+}
+
+.larissa-intro-video-wrap video {
+  width: 100%;
+  height: auto;
+  display: block;
+  mix-blend-mode: screen;
+  filter: brightness(1.12) contrast(1.08) saturate(.84);
+}
+
+.larissa-intro-name {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: larissaIntroReveal .7s .34s cubic-bezier(.22,.72,.22,1) forwards;
+}
+
+.larissa-intro-name h1 {
+  margin: 0;
+  letter-spacing: -.055em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(46px, 6.2vw, 88px);
+  font-weight: 400;
+  line-height: .92;
+}
+
+.larissa-intro-name h1 em {
+  color: #f0c4ae;
+  font-weight: 400;
+}
+
+.larissa-intro-name p {
+  margin: 17px 0 0;
+  color: rgba(255, 253, 248, .72);
+  letter-spacing: .19em;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+@keyframes larissaIntroReveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes larissaIntroLight {
+  55%, 100% { transform: translateX(100%); }
+}
+
+/* Formulário de qualificação aberto por todos os botões de contato. */
+.lead-form-modal {
+  position: fixed;
+  z-index: 9000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(29, 32, 28, .62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.lead-form-modal[aria-hidden="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.lead-form-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.lead-form-dialog {
+  position: relative;
+  width: min(980px, 100%);
+  min-height: 590px;
+  display: grid;
+  grid-template-columns: minmax(270px, .72fr) minmax(420px, 1.28fr);
+  overflow: hidden;
+  color: var(--larissa-ink);
+  background: var(--larissa-paper);
+  box-shadow: 0 38px 120px rgba(20, 22, 19, .38);
+  transform: translateY(0) scale(1);
+  transition: transform .4s cubic-bezier(.22,.72,.22,1);
+}
+
+.lead-form-modal[aria-hidden="true"] .lead-form-dialog {
+  transform: translateY(22px) scale(.985);
+}
+
+.lead-form-aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  padding: 48px 42px 42px;
+  overflow: hidden;
+  color: var(--larissa-paper);
+  background:
+    radial-gradient(circle at 15% 85%, rgba(223,160,131,.23), transparent 35%),
+    var(--larissa-forest);
+}
+
+.lead-form-aside::after {
+  content: "";
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  right: -190px;
+  bottom: -130px;
+  border: 1px solid rgba(244,239,231,.16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 55px rgba(244,239,231,.035), 0 0 0 110px rgba(244,239,231,.025);
+}
+
+.lead-form-brand {
+  position: relative;
+  z-index: 1;
+}
+
+.lead-form-brand span {
+  display: block;
+  color: #dfa083;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.lead-form-brand strong {
+  display: block;
+  margin-top: 15px;
+  letter-spacing: -.04em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.lead-form-aside > p {
+  position: relative;
+  z-index: 1;
+  max-width: 250px;
+  margin: 0;
+  color: rgba(244,239,231,.62);
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.lead-form-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 54px clamp(38px, 5vw, 72px) 48px;
+}
+
+.lead-form-close {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(39,42,37,.14);
+  border-radius: 50%;
+  color: var(--larissa-ink);
+  background: transparent;
+  font-size: 20px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color .2s, background .2s, transform .2s;
+}
+
+.lead-form-close:hover {
+  color: var(--larissa-paper);
+  background: var(--larissa-forest);
+  transform: rotate(8deg);
+}
+
+.lead-form-progress {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-bottom: 54px;
+}
+
+.lead-form-progress span {
+  height: 2px;
+  background: #d9d0c4;
+  transition: background .35s, transform .35s;
+  transform-origin: left;
+}
+
+.lead-form-progress span.is-active {
+  background: var(--larissa-brown);
+}
+
+.lead-form-step {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  animation: leadStepIn .45s cubic-bezier(.22,.72,.22,1) both;
+}
+
+.lead-form-step[hidden] {
+  display: none;
+}
+
+.lead-form-number {
+  margin: 0 0 20px;
+  color: var(--larissa-brown);
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.lead-form-step h2 {
+  max-width: 570px;
+  margin: 0 0 42px;
+  letter-spacing: -.045em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(37px, 4vw, 55px);
+  font-weight: 400;
+  line-height: 1.02;
+}
+
+.lead-form-step h2 strong {
+  color: var(--larissa-brown);
+  font-weight: 400;
+}
+
+.lead-field-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #6b6b64;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.lead-form-step input[type="text"],
+.lead-form-step input[type="tel"] {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #bdb4a8;
+  border-radius: 0;
+  padding: 13px 0 15px;
+  outline: 0;
+  color: var(--larissa-ink);
+  background: transparent;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  transition: border-color .2s;
+}
+
+.lead-form-step input:focus {
+  border-color: var(--larissa-brown);
+}
+
+.lead-radio-list {
+  display: grid;
+  gap: 10px;
+}
+
+.lead-radio-option {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 15px;
+  min-height: 66px;
+  padding: 14px 18px;
+  border: 1px solid #d5ccbf;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .2s;
+}
+
+.lead-radio-option:hover {
+  border-color: var(--larissa-brown);
+  transform: translateX(3px);
+}
+
+.lead-radio-option:has(input:checked) {
+  border-color: var(--larissa-brown);
+  background: rgba(184,104,76,.07);
+}
+
+.lead-radio-option input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--larissa-brown);
+}
+
+.lead-radio-option span {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.lead-form-error {
+  min-height: 18px;
+  margin: 14px 0 0;
+  color: #9b3f31;
+  font-size: 10px;
+}
+
+.lead-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: auto;
+  padding-top: 38px;
+}
+
+.lead-form-next,
+.lead-form-submit {
+  min-height: 52px;
+  padding: 0 25px;
+  border: 1px solid var(--larissa-forest);
+  border-radius: 999px;
+  color: var(--larissa-paper);
+  background: var(--larissa-forest);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  font-size: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+
+.lead-form-next:hover,
+.lead-form-submit:hover {
+  border-color: var(--larissa-brown);
+  background: var(--larissa-brown);
+  transform: translateY(-2px);
+}
+
+.lead-form-back {
+  padding: 10px 0;
+  border: 0;
+  color: #6b6b64;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+@keyframes leadStepIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 740px) {
+  .larissa-intro-video-wrap {
+    width: min(94vw, 650px);
+  }
+
+  .larissa-intro-name h1 {
+    font-size: clamp(44px, 13vw, 67px);
+  }
+
+  .lead-form-modal {
+    place-items: start center;
+    padding: 12px;
+  }
+
+  .lead-form-dialog {
+    min-height: calc(100dvh - 24px);
+    grid-template-columns: 1fr;
+  }
+
+  .lead-form-aside {
+    display: block;
+    min-height: auto;
+    padding: 28px 24px;
+  }
+
+  .lead-form-brand strong {
+    margin-top: 7px;
+    font-size: 25px;
+  }
+
+  .lead-form-aside > p {
+    display: none;
+  }
+
+  .lead-form-main {
+    min-height: 570px;
+    padding: 40px 24px 30px;
+  }
+
+  .lead-form-close {
+    top: 20px;
+    right: 18px;
+    color: var(--larissa-paper);
+    border-color: rgba(244,239,231,.25);
+  }
+
+  .lead-form-progress {
+    margin-bottom: 40px;
+  }
+
+  .lead-form-step h2 {
+    margin-bottom: 34px;
+    font-size: clamp(34px, 10vw, 46px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .larissa-video-intro::before,
+  .larissa-intro-video-wrap,
+  .larissa-intro-name {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
