@@ -12,6 +12,9 @@
   const progress = Array.from(form.querySelectorAll(".lead-form-progress span"));
   let currentStep = 0;
   let introFinished = false;
+  let premiumMotionStarted = false;
+  let premiumMotionReady = false;
+  let premiumMotionLibraries;
 
   function stopLegacyPointerEffect(event) {
     event.stopPropagation();
@@ -24,11 +27,209 @@
     main.addEventListener("pointermove", stopLegacyPointerEffect);
   }
 
+  function activateCard(group, card) {
+    group.querySelectorAll("article, li").forEach(function (item) {
+      item.classList.toggle("is-active", item === card);
+    });
+  }
+
+  function prepareInteractiveGroup(selector) {
+    const group = document.querySelector(selector);
+    if (!group || group.dataset.interactiveReady) return;
+    group.dataset.interactiveReady = "true";
+    const cards = Array.from(group.querySelectorAll("article, li"));
+    if (!cards.length) return;
+    activateCard(group, cards[0]);
+    cards.forEach(function (card) {
+      card.tabIndex = 0;
+      card.addEventListener("pointerenter", function () { activateCard(group, card); });
+      card.addEventListener("focusin", function () { activateCard(group, card); });
+      card.addEventListener("click", function () { activateCard(group, card); });
+    });
+  }
+
+  function prepareDynamicExperience() {
+    prepareInteractiveGroup(".signal-grid");
+    prepareInteractiveGroup(".approach-list");
+    prepareInteractiveGroup(".process-steps");
+  }
+
+  function loadMotionScript(id, source) {
+    return new Promise(function (resolve, reject) {
+      const current = document.getElementById(id);
+      if (current) {
+        if (current.dataset.loaded === "true") resolve();
+        else current.addEventListener("load", resolve, { once: true });
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = id;
+      script.src = source;
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      script.addEventListener("load", function () {
+        script.dataset.loaded = "true";
+        resolve();
+      }, { once: true });
+      script.addEventListener("error", reject, { once: true });
+      document.head.appendChild(script);
+    });
+  }
+
+  function setupPremiumMotion() {
+    if (premiumMotionReady || !window.gsap || !window.ScrollTrigger) return;
+    const hero = document.querySelector(".hero");
+    if (!hero) {
+      window.setTimeout(setupPremiumMotion, 160);
+      return;
+    }
+
+    premiumMotionReady = true;
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.defaults({ duration: .82, ease: "power3.out" });
+    body.classList.add("premium-motion");
+
+    const heroTargets = [
+      hero.querySelector(".eyebrow"),
+      hero.querySelector("h1"),
+      hero.querySelector(".hero-lead"),
+      hero.querySelector(".hero-actions"),
+      hero.querySelector(".hero-trust")
+    ].filter(Boolean);
+    const portrait = hero.querySelector(".portrait-frame");
+
+    const heroTimeline = gsap.timeline({
+      defaults: { ease: "power4.out" },
+      onComplete: function () {
+        gsap.set(heroTargets, { clearProps: "willChange" });
+        if (portrait) gsap.set(portrait, { clearProps: "willChange" });
+      }
+    });
+    heroTimeline
+      .fromTo(heroTargets, { y: 24, autoAlpha: 0, willChange: "transform,opacity" }, {
+        y: 0,
+        autoAlpha: 1,
+        duration: .86,
+        stagger: .075
+      });
+    if (portrait) {
+      heroTimeline.fromTo(portrait, {
+        clipPath: "inset(0 0 100% 0)",
+        willChange: "clip-path"
+      }, {
+        clipPath: "inset(0 0 0% 0)",
+        duration: 1.05,
+        ease: "power4.out"
+      }, .08);
+    }
+
+    [
+      [".signal-grid", ".signal-grid article"],
+      [".approach-list", ".approach-list article"],
+      [".process-steps", ".process-steps li"],
+      [".mode-grid", ".mode-grid article"],
+      [".instagram-rail", ".instagram-card"],
+      [".faq-list", ".faq-list details"]
+    ].forEach(function (entry) {
+      const trigger = document.querySelector(entry[0]);
+      const targets = gsap.utils.toArray(entry[1]);
+      if (!trigger || !targets.length) return;
+      gsap.fromTo(targets, {
+        y: 26,
+        autoAlpha: 0,
+        willChange: "transform,opacity"
+      }, {
+        y: 0,
+        autoAlpha: 1,
+        duration: .78,
+        stagger: .07,
+        ease: "power4.out",
+        clearProps: "willChange",
+        scrollTrigger: {
+          trigger: trigger,
+          start: "top 84%",
+          once: true
+        }
+      });
+    });
+
+    const aboutPortrait = document.querySelector(".about-portrait");
+    if (aboutPortrait) {
+      const aboutImage = aboutPortrait.querySelector("img");
+      const imageTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: aboutPortrait,
+          start: "top 82%",
+          once: true
+        }
+      });
+      imageTimeline.fromTo(aboutPortrait, {
+        clipPath: "inset(0 0 100% 0)"
+      }, {
+        clipPath: "inset(0 0 0% 0)",
+        duration: 1.02,
+        ease: "power4.out"
+      });
+      if (aboutImage) {
+        imageTimeline.fromTo(aboutImage, { scale: 1.055 }, {
+          scale: 1,
+          duration: 1.12,
+          ease: "power4.out"
+        }, 0);
+      }
+    }
+
+    if (!window.matchMedia("(pointer: coarse)").matches) {
+      gsap.utils.toArray(".button, .floating-contact").forEach(function (button) {
+        const xTo = gsap.quickTo(button, "x", { duration: .38, ease: "power3.out" });
+        const yTo = gsap.quickTo(button, "y", { duration: .38, ease: "power3.out" });
+        button.addEventListener("pointermove", function (event) {
+          const rect = button.getBoundingClientRect();
+          xTo((event.clientX - rect.left - rect.width / 2) * .1);
+          yTo((event.clientY - rect.top - rect.height / 2) * .1);
+        });
+        button.addEventListener("pointerleave", function () {
+          xTo(0);
+          yTo(0);
+        });
+      });
+    }
+
+    window.addEventListener("load", function () { ScrollTrigger.refresh(); }, { once: true });
+    window.setTimeout(function () { ScrollTrigger.refresh(); }, 250);
+    window.addEventListener("pagehide", function () {
+      ScrollTrigger.getAll().forEach(function (trigger) { trigger.kill(); });
+    }, { once: true });
+  }
+
+  function preloadPremiumMotion() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return Promise.resolve();
+    if (premiumMotionLibraries) return premiumMotionLibraries;
+    premiumMotionLibraries = loadMotionScript("larissa-gsap", "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js")
+      .then(function () {
+        return loadMotionScript("larissa-scroll-trigger", "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js");
+      });
+    return premiumMotionLibraries;
+  }
+
+  function startPremiumMotion() {
+    if (premiumMotionStarted || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    premiumMotionStarted = true;
+    preloadPremiumMotion()
+      .then(setupPremiumMotion)
+      .catch(function () {
+        body.classList.remove("premium-motion");
+      });
+  }
+
   function finishIntro() {
     if (introFinished) return;
     introFinished = true;
     intro.classList.add("is-leaving");
     body.classList.remove("larissa-intro-open");
+    startPremiumMotion();
     window.setTimeout(function () {
       intro.remove();
     }, 850);
@@ -51,6 +252,7 @@
     });
   }
   window.setTimeout(finishIntro, 4600);
+  preloadPremiumMotion().catch(function () {});
 
   function prepareContactLinks(scope) {
     scope.querySelectorAll(contactSelector).forEach(function (link) {
@@ -182,6 +384,7 @@
 
   prepareContactLinks(document);
   optimizePointerMovement();
+  prepareDynamicExperience();
   new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
@@ -189,7 +392,10 @@
       });
     });
     optimizePointerMovement();
+    prepareDynamicExperience();
   }).observe(document.getElementById("root"), { childList: true, subtree: true });
+
+  window.setTimeout(startPremiumMotion, 4800);
 
   if (window.location.hash === "#lead-form") openForm();
 })();

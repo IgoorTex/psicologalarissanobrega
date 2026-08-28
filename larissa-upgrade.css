@@ -87,7 +87,7 @@ body.lead-form-open {
   margin: 0;
   letter-spacing: -.035em;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(32px, 4.3vw, 58px);
+  font-size: clamp(27px, 3.5vw, 46px);
   font-weight: 400;
   line-height: 1;
 }
@@ -437,7 +437,7 @@ body.lead-form-open {
   }
 
   .larissa-intro-name h1 {
-    font-size: clamp(33px, 10vw, 48px);
+    font-size: clamp(29px, 8.5vw, 41px);
   }
 
   .lead-form-modal {
@@ -494,5 +494,413 @@ body.lead-form-open {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Escala editorial mais suave e uma leitura menos biográfica. */
+body .hero {
+  grid-template-columns: minmax(0, 1fr) minmax(340px, .82fr);
+  gap: clamp(42px, 5vw, 78px);
+  min-height: auto;
+  padding-block: 74px 92px;
+}
+
+body .hero h1 {
+  max-width: 670px;
+  letter-spacing: -.045em;
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: .94;
+}
+
+body .hero-lead,
+body .hero-actions,
+body .hero-trust {
+  margin-left: 0;
+}
+
+body .hero-lead {
+  max-width: 520px;
+  margin-top: 29px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+body .hero-actions {
+  margin-top: 29px;
+}
+
+body .hero-portrait {
+  min-height: 570px;
+}
+
+body .portrait-frame {
+  width: 82%;
+  height: min(62vh, 625px);
+  min-height: 520px;
+}
+
+body .calm-seal {
+  width: 96px;
+  height: 96px;
+  top: 45px;
+}
+
+body .credential-strip div {
+  min-height: 86px;
+  padding: 20px 28px;
+}
+
+body .identification,
+body .approach,
+body .process,
+body .instagram-showcase,
+body .faq-location {
+  padding-block: 112px;
+}
+
+body .identification h2 {
+  max-width: 820px;
+  letter-spacing: -.035em;
+  font-size: clamp(40px, 4.2vw, 60px);
+  line-height: 1.04;
+}
+
+body .approach-heading h2,
+body .about-copy h2,
+body .process-head h2,
+body .instagram-intro h2,
+body .faq-copy h2 {
+  letter-spacing: -.038em;
+  font-size: clamp(40px, 4vw, 58px);
+  line-height: 1.02;
+}
+
+body .first-close h2 {
+  max-width: 760px;
+  letter-spacing: -.035em;
+  font-size: clamp(46px, 5vw, 72px);
+  line-height: 1;
+}
+
+body .lead-form-step h2 {
+  letter-spacing: -.03em;
+  font-size: clamp(32px, 3.5vw, 46px);
+  line-height: 1.08;
+}
+
+body .identification-copy {
+  gap: 7vw;
+  margin: 48px 0 58px;
+}
+
+body .signal-grid {
+  position: relative;
+  overflow: visible;
+}
+
+body .signal-grid article {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  padding: 28px;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  transition: color .45s ease, background .45s ease, box-shadow .45s ease, transform .45s cubic-bezier(.2,.8,.2,1);
+}
+
+body .signal-grid article::before {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -110px;
+  bottom: -120px;
+  border: 1px solid rgba(244,239,231,.19);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(.72);
+  transition: opacity .45s ease, transform .65s cubic-bezier(.2,.8,.2,1);
+}
+
+body .signal-grid article.is-active,
+body .signal-grid article:hover,
+body .signal-grid article:focus-within {
+  z-index: 2;
+  color: var(--paper);
+  background: var(--forest);
+  box-shadow: 0 24px 65px rgba(39,42,37,.18);
+  transform: translate3d(0, -7px, 0);
+}
+
+body .signal-grid article.is-active p,
+body .signal-grid article:hover p,
+body .signal-grid article:focus-within p {
+  color: rgba(244,239,231,.68);
+}
+
+body .signal-grid article.is-active::before,
+body .signal-grid article:hover::before,
+body .signal-grid article:focus-within::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+body .signal-grid h3 {
+  margin-top: 64px;
+  font-size: 29px;
+}
+
+body .approach-grid {
+  gap: 8vw;
+}
+
+body .approach-list article {
+  position: relative;
+  min-height: 170px;
+  padding: 30px 20px;
+  overflow: hidden;
+  transition: background .4s ease, transform .4s cubic-bezier(.2,.8,.2,1);
+}
+
+body .approach-list article::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: #dfa083;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1);
+}
+
+body .approach-list article:hover,
+body .approach-list article.is-active {
+  background: rgba(244,239,231,.055);
+  transform: translate3d(8px, 0, 0);
+}
+
+body .approach-list article:hover::before,
+body .approach-list article.is-active::before {
+  transform: scaleY(1);
+}
+
+body .approach-list h3 {
+  font-size: 30px;
+}
+
+body .about {
+  grid-template-columns: .76fr 1.24fr;
+  gap: 7vw;
+  padding-block: 110px;
+}
+
+body .about-portrait {
+  width: 100%;
+  min-height: 570px;
+  height: 640px;
+}
+
+body .about-copy h2 {
+  margin: 42px 0 28px;
+}
+
+body .about-text {
+  gap: 22px;
+}
+
+body .about-text p {
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+body .about-credentials {
+  margin: 32px 0 28px;
+}
+
+body .process-head {
+  gap: 6vw;
+}
+
+body .process-steps {
+  margin-top: 66px;
+}
+
+body .process-steps li {
+  position: relative;
+  min-height: 295px;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+body .process-steps li::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--clay);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .55s cubic-bezier(.2,.8,.2,1);
+}
+
+body .process-steps li:hover::after,
+body .process-steps li.is-active::after {
+  transform: scaleX(1);
+}
+
+body .process-steps h3 {
+  font-size: 29px;
+}
+
+body.premium-motion .reveal-ready {
+  filter: none;
+  transition-duration: .62s;
+  transform: translate3d(0, 18px, 0);
+}
+
+body.premium-motion .reveal-ready.is-visible {
+  transform: translate3d(0, 0, 0);
+}
+
+@media (max-width: 1050px) {
+  body .hero {
+    grid-template-columns: 1fr;
+    gap: 54px;
+    padding-top: 62px;
+  }
+
+  body .hero-copy {
+    max-width: 720px;
+  }
+
+  body .hero-portrait {
+    min-height: auto;
+  }
+
+  body .portrait-frame {
+    width: min(78%, 650px);
+    height: 690px;
+    min-height: 0;
+  }
+
+  body .about {
+    grid-template-columns: 1fr;
+    gap: 58px;
+  }
+
+  body .about-portrait {
+    width: min(76%, 660px);
+    min-height: 0;
+    height: 700px;
+  }
+}
+
+@media (max-width: 680px) {
+  body .hero {
+    gap: 46px;
+    padding-block: 48px 66px;
+  }
+
+  body .hero h1 {
+    max-width: 520px;
+    letter-spacing: -.035em;
+    font-size: clamp(39px, 11.5vw, 52px);
+    line-height: .98;
+  }
+
+  body .hero-lead {
+    margin-top: 24px;
+    font-size: 14px;
+  }
+
+  body .portrait-frame {
+    width: 94%;
+    height: 118vw;
+    min-height: 430px;
+  }
+
+  body .identification,
+  body .approach,
+  body .process,
+  body .instagram-showcase,
+  body .faq-location {
+    padding-block: 84px;
+  }
+
+  body .identification h2,
+  body .approach-heading h2,
+  body .about-copy h2,
+  body .process-head h2,
+  body .instagram-intro h2,
+  body .faq-copy h2 {
+    letter-spacing: -.03em;
+    font-size: clamp(34px, 10vw, 45px);
+    line-height: 1.05;
+  }
+
+  body .first-close h2 {
+    font-size: clamp(39px, 11vw, 52px);
+  }
+
+  body .signal-grid {
+    grid-template-columns: none;
+    grid-auto-columns: min(84vw, 330px);
+    grid-auto-flow: column;
+    gap: 12px;
+    width: calc(100vw - 14px);
+    margin-right: calc(50% - 50vw);
+    padding: 8px 14px 24px 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x mandatory;
+    border: 0;
+  }
+
+  body .signal-grid article {
+    min-height: 285px;
+    border: 1px solid var(--line);
+    scroll-snap-align: start;
+  }
+
+  body .signal-grid article.is-active,
+  body .signal-grid article:hover,
+  body .signal-grid article:focus-within {
+    transform: none;
+  }
+
+  body .about {
+    gap: 44px;
+    padding-block: 82px;
+  }
+
+  body .about-portrait {
+    width: 100%;
+    height: 105vw;
+    min-height: 380px;
+  }
+
+  body .process-steps {
+    margin-top: 48px;
+  }
+
+  body .process-steps li {
+    min-height: 240px;
+  }
+
+  body .lead-form-step h2 {
+    font-size: clamp(30px, 8.5vw, 39px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .signal-grid article,
+  body .approach-list article,
+  body .process-steps li {
+    transition: none;
+    transform: none !important;
   }
 }
