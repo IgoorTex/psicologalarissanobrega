@@ -5,7 +5,6 @@
   const contactSelector = 'a[href*="wa.me"], a[href="#pre-conversa"], a[data-lead-form-link]';
   const body = document.body;
   const intro = document.getElementById("larissa-video-intro");
-  const introVideo = document.getElementById("larissa-intro-video");
   const modal = document.getElementById("lead-form");
   const form = document.getElementById("lead-qualification-form");
   const steps = Array.from(form.querySelectorAll(".lead-form-step"));
@@ -319,23 +318,8 @@
     window.setTimeout(function () { intro.remove(); }, 1420);
   }
 
-  function updateIntroVideoMode() {
-    const source = introVideo.currentSrc || "";
-    intro.classList.toggle("has-alpha-video", source.toLowerCase().includes(".webm"));
-  }
-
   body.classList.add("larissa-intro-open");
-  introVideo.addEventListener("loadedmetadata", updateIntroVideoMode);
-  introVideo.addEventListener("canplay", updateIntroVideoMode);
-  introVideo.addEventListener("ended", finishIntro, { once: true });
-  introVideo.addEventListener("error", finishIntro, { once: true });
-  const playback = introVideo.play();
-  if (playback && typeof playback.catch === "function") {
-    playback.catch(function () {
-      window.setTimeout(finishIntro, 3200);
-    });
-  }
-  window.setTimeout(finishIntro, 4600);
+  window.setTimeout(finishIntro, 3200);
   preloadPremiumMotion().catch(function () {});
 
   function prepareContactLinks(scope) {
