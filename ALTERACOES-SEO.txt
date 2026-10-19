@@ -1,0 +1,19 @@
+CÓPIA COM AJUSTES DE SEO — LARISSA NOBREGA (19/10/2026)
+O site no ar NÃO foi alterado. Esta é uma cópia separada.
+
+Aplicado (conforme o head estratégico):
+1. <head>: novo title, description, canonical, robots, Open Graph e Twitter (domínio psicologalarissanobrega.com.br).
+2. Schema Psychologist com endereço, telefone, CRP, horário e Instagram.
+3. H1 novo + eyebrow com nome/CRP. Só 1 H1 na página; títulos de seção viraram os H2 pedidos.
+4. FAQ com as 4 perguntas novas (substituiu as da seção "Antes da primeira conversa") + schema FAQPage com o mesmo texto.
+5. Alt da foto principal atualizado.
+6. robots.txt e sitemap.xml criados na raiz.
+7. Questionário do WhatsApp: já abria só no clique — nada a mudar.
+8. Conteúdo pré-renderizado no HTML (aparece no Ctrl+U).
+Extra: og.png 1200x630 criado a partir da foto do site.
+
+CONFIRMAR COM A LARISSA antes de publicar:
+- Duração da sessão (coloquei 50 min)
+- Convênio (coloquei: particular + recibo para reembolso)
+- Horário (coloquei seg–sex, 08:00–19:00)
+- Cidades atendidas (Caieiras, Franco da Rocha, Mairiporã, online)
